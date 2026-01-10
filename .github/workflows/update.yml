@@ -1,0 +1,50 @@
+name: Copier Update
+
+on:
+  push:
+    branch:
+      - main
+    files:
+      - Project.toml
+  # schedule:
+  #   - cron: 0 7 1/7 * *  # Every 7 days at 7:00 UTC
+  workflow_dispatch:
+
+jobs:
+  Copier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - name: Use Julia cache
+        uses: julia-actions/cache@v2
+      - name: Build the package
+        uses: julia-actions/julia-buildpkg@v1
+      - name: Install JuliaFormatter.jl
+        run: julia -e 'using Pkg; pkg"add JuliaFormatter"'
+      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
+        run: touch requirements.txt
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          cache: 'pip'
+          python-version: "3.12"
+      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
+        run: rm requirements.txt
+      - name: Run main.jl
+        run: |
+          julia --project=. main.jl
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          commit-message: ":robot: Update showcase"
+          title: ":robot: Update showcase"
+          branch: showcase-update
+          delete-branch: true
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
