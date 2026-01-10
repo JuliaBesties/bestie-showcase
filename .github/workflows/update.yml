@@ -4,7 +4,7 @@ on:
   push:
     branch:
       - main
-    files:
+    paths:
       - Project.toml
   # schedule:
   #   - cron: 0 7 1/7 * *  # Every 7 days at 7:00 UTC
