@@ -24,7 +24,7 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
     package_owner,
     authors,
     strategy;
-    template_source = :local,
+    template_source = :online,
   )
 
   @assert isdir(package_path)
