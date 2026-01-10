@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier
+AddPrecommitUpdateCI: false
+Authors: Bestie Template <me@bestie.tmp>
+JuliaMinVersion: '1.10'
+License: MIT
+LicenseCopyrightHolders: Bestie Template
+PackageName: StrategyLevel3Robust
+PackageOwner: JuliaBesties
+PackageUUID: ca26f490-bc68-4489-97cc-95a4c39097e5
+StrategyConfirmIncluded: false
+StrategyLevel: 3
+StrategyReviewExcluded: false
+_commit: v0.18.1
+_src_path: https://github.com/JuliaBesties/BestieTemplate.jl

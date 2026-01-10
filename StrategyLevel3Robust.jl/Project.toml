@@ -1,0 +1,10 @@
+name = "StrategyLevel3Robust"
+uuid = "ca26f490-bc68-4489-97cc-95a4c39097e5"
+authors = ["Bestie Template <me@bestie.tmp>"]
+version = "0.1.0"
+
+[workspace]
+projects = ["test", "docs"]
+
+[compat]
+julia = "1.10"
