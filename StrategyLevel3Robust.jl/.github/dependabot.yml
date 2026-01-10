@@ -12,4 +12,3 @@ updates:
       - "/test"
     schedule:
       interval: "weekly"
-
