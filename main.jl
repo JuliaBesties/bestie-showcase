@@ -15,7 +15,7 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
 
   if isdir(package_path)
     @info "Removing old folder '$package_path'"
-    rm(package_path, recursive=true)
+    rm(package_path; recursive = true)
   end
 
   @info "Creating $package_name with new_pkg_quick"
@@ -23,7 +23,7 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
     package_path,
     package_owner,
     authors,
-    strategy,
+    strategy;
     template_source = :local,
   )
 
@@ -43,12 +43,18 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
       @warn "Nothing to commit"
     end
 
-    if isfile(".pre-commit-config.yml")
+    if isfile(".pre-commit-config.yaml")
+      # creating a .git folder temporarily to force pre-commit to run on the subfolder
+      run(`git init`)
+      run(`git add .`)
+      run(`git commit -m "First commimt"`)
+
       max_precommit_runs = 3
       pre_commit_runs = 0
       while pre_commit_runs < max_precommit_runs
         @info "Running $package_name's pre-commit"
         pre_commit_runs += 1
+        ENV["SKIP"] = "no-commit-to-branch"
         pre_commit_success = success(`pre-commit run -a`)
 
         if pre_commit_success
@@ -58,6 +64,16 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
           @warn "pre-commit failed execution #$pre_commit_runs"
         end
       end
+      if pre_commit_runs == max_precommit_runs
+        error(
+          "pre-commit is not passing. Either TestGeneratedPkg is failing or this script is wrong",
+        )
+      end
+
+      # Remove fake .git
+      run(`rm -rf .git`)
+
+      # Commit to normal repo
       run(`git add .`)
       if !success(`git diff-index --exit-code HEAD. `)
         @info "Adding modifications"
