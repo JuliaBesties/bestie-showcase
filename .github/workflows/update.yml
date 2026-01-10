@@ -37,6 +37,8 @@ jobs:
         run: rm requirements.txt
       - name: Run main.jl
         run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub action"
           julia --project=. main.jl
       - name: Create Pull Request
         id: cpr
