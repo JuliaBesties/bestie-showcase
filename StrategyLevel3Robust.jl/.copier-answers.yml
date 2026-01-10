@@ -10,5 +10,5 @@ PackageUUID: ca26f490-bc68-4489-97cc-95a4c39097e5
 StrategyConfirmIncluded: false
 StrategyLevel: 3
 StrategyReviewExcluded: false
-_commit: v0.18.1
+_commit: v0.18.3
 _src_path: https://github.com/JuliaBesties/BestieTemplate.jl
