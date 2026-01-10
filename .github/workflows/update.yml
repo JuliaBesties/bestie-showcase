@@ -1,4 +1,4 @@
-name: Copier Update
+name: Showcase auto-update
 
 on:
   push:
