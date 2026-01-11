@@ -1,0 +1,6 @@
+exclude = [
+]
+
+exclude_path = [
+  "Strategy*"
+]
