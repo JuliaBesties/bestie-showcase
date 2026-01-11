@@ -36,13 +36,6 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
     @info "git add $package_name"
     run(`git add .`)
 
-    if !success(`git diff-index --exit-code HEAD .`)
-      @info "Committing"
-      run(`git commit -m "Add $package_name from BestieTemplate@$bestie_version"`)
-    else
-      @warn "Nothing to commit"
-    end
-
     if isfile(".pre-commit-config.yaml")
       # creating a .git folder temporarily to force pre-commit to run on the subfolder
       run(`git init`)
@@ -73,12 +66,15 @@ for (i, strategy) in enumerate((:tiny, :light, :moderate, :robust))
       # Remove fake .git
       run(`rm -rf .git`)
 
-      # Commit to normal repo
+      # Add modifications
       run(`git add .`)
-      if !success(`git diff-index --exit-code HEAD. `)
-        @info "Adding modifications"
-        run(`git commit -m "Add $package_name after running its pre-commit"`)
-      end
+    end
+
+    if !success(`git diff-index --exit-code HEAD .`)
+      @info "Committing"
+      run(`git commit -m "Add $package_name from BestieTemplate@$bestie_version"`)
+    else
+      @warn "Nothing to commit"
     end
   end
 end
