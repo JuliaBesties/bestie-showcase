@@ -25,7 +25,7 @@ jobs:
       - name: Build the package
         uses: julia-actions/julia-buildpkg@v1
       - name: Install JuliaFormatter.jl
-        run: julia -e 'using Pkg; pkg"add JuliaFormatter"'
+        run: julia -e 'using Pkg; pkg"add JuliaFormatter@v1"'
       - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
         run: touch requirements.txt
       - name: Setup Python
